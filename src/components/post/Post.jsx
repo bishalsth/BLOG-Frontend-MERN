@@ -1,26 +1,34 @@
 import "./post.css"
-export default function Post() {
+import {Link} from "react-router-dom";
+export default function Post({post}) {
   return (
     <div className="post">
-        
-        <img  className="postImg"
-         src="https://www.pandasecurity.com/en/mediacenter/src/uploads/2019/07/pandasecurity-How-do-hackers-pick-their-targets.jpg" alt="" />
+        {post.photo &&  (
+           <img  className="postImg"
+           src={post.photo} alt="" />
+        )}
+       
         
         <div className="postInfo">
             <div className="postCats">
-                <span className="postCat">Music</span>
-                <span className="postCat">Life</span>
+          {post.categories.map((c)=>{
+            <span className="postCat">{c.name}</span>
+          })}
+
+                
             </div>
-            <span className="postTitle">Lorem ipsum dolor sit, amet </span>
+
+          <Link to={`/post/${post._id}`} className="link">
+          <span className="postTitle">{post.title} </span>
+          </Link>
+
+          
 
             <hr />
 
-            <span className="postDate">1 hour ago</span>
+            <span className="postDate">{new Date(post.createdAt).toDateString()} </span>
             <p className="postDesc">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
-        officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-        fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-        atque, exercitationem quibusdam, reiciendis odio laboriosam?
+       {post.desc}
       </p>
         </div>
         

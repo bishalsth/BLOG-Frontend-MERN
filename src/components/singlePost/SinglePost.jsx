@@ -1,17 +1,35 @@
 import "./singlePost.css"
+import {useLocation} from "react-router";
+import {useEffect,useState} from "react";
+import axios from "axios";
+
+import {Link} from "react-router-dom"
 export default function SinglePost() {
+
+  const location = useLocation();
+  const path =(location.pathname.split("/")[2]);
+
+  const [post,setPost] = useState({});
+  useEffect(()=>{
+    const getPost = async ()=>{
+      const res = await axios.get("/posts/"+path);
+      setPost(res.data);
+    }
+    getPost();
+  },[path]);
   return (
     <div className="singlePost">
         
         <div className="singlePostWrapper">
+          {post.photo && (
         <img
           className="singlePostImg"
-          src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          src={post.photo}
           alt=""
-        />
+        />)}
 
 <h1 className="singlePostTitle">
-          Lorem ipsum dolor
+          {post.title}
           <div className="singlePostEdit">
             <i className="singlePostIcon far fa-edit"></i>
             <i className="singlePostIcon far fa-trash-alt"></i>
@@ -20,13 +38,17 @@ export default function SinglePost() {
 
         <div className="singlePostInfo">
         <span className="singlePostAuthor">
-          Author: <b>Safak</b>
+          Author: 
+            <Link to={`/?user=${post.username}`} className="link"> 
+          <b>{post.username}</b>
+            
+            </Link>
         </span>
 
-        <span className="singlePostDate"> 1 hour ago</span>
+        <span className="singlePostDate"> {new Date(post.createdAt).toDateString}</span>
         </div>
 
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid, alias quas tempore illum illo eveniet voluptatem ea esse repudiandae fuga dignissimos quis excepturi deleniti libero consectetur hic vero dolorem dolor! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit consequatur dolorem molestias? Atque tenetur ex eius ipsam labore voluptate iste quisquam impedit, nobis nostrum dolor nisi, commodi a quia! Cumque?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ipsa qui et fugiat molestiae sit vel eligendi, porro similique mollitia reiciendis debitis magnam laboriosam nesciunt facere voluptas molestias quaerat! Rem.</p>
+        <p>{post.desc}</p>
 
 
         </div>
