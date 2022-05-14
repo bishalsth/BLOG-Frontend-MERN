@@ -35,6 +35,10 @@ function App() {
             {/* {user?<Write /> :<Register/>} */}
           </Route></Routes>
 
+          <Routes>  <Route path="/settings" element={user?<Settings /> :<Register/>}>
+            {/* {user?<Write /> :<Register/>} */}
+          </Route></Routes>
+
          {/* <Routes> <Route  path="/settings" component={Settings}>
             <Settings></Settings>
             {user ?<Settings />:<Register/>}
